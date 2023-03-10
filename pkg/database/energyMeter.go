@@ -1,29 +1,17 @@
 package database
 
-import "time"
+func CreateEnergyMeterBrand(name string) error {
+	conn := connect()
 
-type EnergyMeter struct {
-	Serial             string `gorm:"primaryKey"`
-	EnergyMeterBrandID uint
+    result := conn.Create(&EnergyMeterBrand{
+		Name: name,
+	})
 
-	EnergyMeterInstallation []EnergyMeterInstallation
+    return result.Error
 }
 
-type EnergyMeterBrand struct {
-	ID   uint `gorm:"primaryKey"`
-	Name string
+func CreateEnergyMeter() {
+	conn := connect()
 
-	EnergyMeter []EnergyMeter
-}
-
-type EnergyMeterInstallation struct {
-	ID               uint `gorm:"primaryKey"`
-	Address          string
-	InstallationDate *time.Time
-	RetirementDate   *time.Time
-	Lines            uint8
-	IsActive         bool
-	CreatedAt        *time.Time
-
-	EnergyMeterSerial string
+	conn.Create(&EnergyMeter{})
 }
