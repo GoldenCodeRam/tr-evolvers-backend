@@ -17,7 +17,7 @@ type EnergyMeterBrand struct {
 }
 
 type EnergyMeterInstallation struct {
-	ID               uint `gorm:"primaryKey"`
+	ID               uint `gorm:"primaryKey;autoIncrement"`
 	Address          string
 	InstallationDate *time.Time
 	RetirementDate   *time.Time

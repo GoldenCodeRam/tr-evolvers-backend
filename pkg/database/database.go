@@ -7,6 +7,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
+	"github.com/goldencoderam/tr-evolvers-backend/pkg/grpc/service"
 	"github.com/joho/godotenv"
 )
 
@@ -39,17 +40,44 @@ func connect() *gorm.DB {
 func AutoMigrate() error {
 	conn := connect()
 
-    errors := []error{
+	errors := []error{
 		conn.AutoMigrate(&EnergyMeterBrand{}),
 		conn.AutoMigrate(&EnergyMeter{}),
 		conn.AutoMigrate(&EnergyMeterInstallation{}),
 	}
-    
-    for _, error := range errors {
-        if error == nil {
-            return error
-        }
-    }
 
-    return nil
+	for _, error := range errors {
+		if error == nil {
+			return error
+		}
+	}
+
+	return nil
+}
+
+func CreateEnergyMeter(
+	createEnergyMeterDto *service.CreateEnergyMeterDto,
+) (*EnergyMeter, error) {
+	conn := connect()
+
+	energyMeter := EnergyMeter{
+		Serial:             createEnergyMeterDto.GetSerial(),
+		EnergyMeterBrandID: uint(createEnergyMeterDto.GetBrandId()),
+	}
+	result := conn.Create(&EnergyMeter{})
+
+	return &energyMeter, result.Error
+}
+
+func CreateEnergyMeterBrand(
+	createEnergyMeterBrand *service.CreateEnergyMeterBrandDto,
+) (*EnergyMeterBrand, error) {
+	conn := connect()
+
+	energyMeterBrand := EnergyMeterBrand{
+		Name: createEnergyMeterBrand.GetBrand(),
+	}
+	result := conn.Create(&energyMeterBrand)
+
+	return &energyMeterBrand, result.Error
 }

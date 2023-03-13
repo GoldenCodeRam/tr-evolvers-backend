@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "pkg/grpc/service";
+
+service EnergyMeterService {
+  rpc CreateEnergyMeter(CreateEnergyMeterDto) returns (EnergyMeterDto) {}
+  rpc CreateEnergyMeterBrand(CreateEnergyMeterBrandDto) returns (EnergyMeterBrandDto) {}
+}
+
+message EnergyMeterDto {
+  string serial = 1;
+  uint32 brandId = 2;
+}
+
+message CreateEnergyMeterDto {
+  string serial = 1;
+  uint32 brandId = 2;
+}
+
+message EnergyMeterBrandDto {
+  uint32 id = 1;
+  string name = 2;
+}
+
+message CreateEnergyMeterBrandDto {
+  string brand = 1;
+}
