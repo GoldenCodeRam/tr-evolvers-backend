@@ -8,8 +8,8 @@ import (
 	"net"
 	"sync"
 
+	"github.com/goldencoderam/tr-evolvers-backend/internal/grpc/service"
 	"github.com/goldencoderam/tr-evolvers-backend/pkg/database"
-	"github.com/goldencoderam/tr-evolvers-backend/pkg/grpc/service"
 	"google.golang.org/grpc"
 )
 

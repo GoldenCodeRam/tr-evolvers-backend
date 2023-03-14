@@ -1,27 +1,75 @@
 syntax = "proto3";
 
-option go_package = "pkg/grpc/service";
+package GrpcEnergyMeter;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "internal/grpc/service";
 
 service EnergyMeterService {
-  rpc CreateEnergyMeter(CreateEnergyMeterDto) returns (EnergyMeterDto) {}
-  rpc CreateEnergyMeterBrand(CreateEnergyMeterBrandDto) returns (EnergyMeterBrandDto) {}
+  // As the tech requisite, I'm not adding the update function for the Energy
+  // Meter, as it's not necessary.
+  rpc Create(CreateDto) returns (Dto) {}
+  rpc Get(Dto) returns (Dto) {}
+  rpc Delete(Dto) returns (Dto) {}
+
+  // As the tech requisite, I'm not adding the update function for the Energy
+  // Meter Brand, as it's not necessary.
+  rpc CreateBrand(BrandDto) returns (BrandDto) {}
+  rpc GetBrand(CreateBrandDto) returns (BrandDto) {}
+  rpc DeleteBrand(BrandDto) returns (BrandDto) {}
+
+  rpc CreateInstallation(CreateInstallationDto) returns (InstallationDto) {}
+  rpc GetInstallation(InstallationDto) returns (InstallationDto) {}
+  rpc UpdateInstallation(UpdateInstallationDto) returns (InstallationDto) {}
+  rpc DeleteInstallation(InstallationDto) returns (InstallationDto) {}
 }
 
-message EnergyMeterDto {
+message Dto {
   string serial = 1;
   uint32 brandId = 2;
 }
 
-message CreateEnergyMeterDto {
+message CreateDto {
   string serial = 1;
   uint32 brandId = 2;
 }
 
-message EnergyMeterBrandDto {
+message BrandDto {
   uint32 id = 1;
-  string name = 2;
+  string brand = 2;
 }
 
-message CreateEnergyMeterBrandDto {
+message CreateBrandDto {
   string brand = 1;
+}
+
+message InstallationDto {
+  uint32 id = 1;
+  string address = 2;
+  google.protobuf.Timestamp installationDate = 3;
+  google.protobuf.Timestamp retirementDate = 4;
+  uint32 lines = 5;
+  bool isActive = 6;
+  google.protobuf.Timestamp createdAt = 7;
+}
+
+message CreateInstallationDto {
+  string address = 1;
+  google.protobuf.Timestamp installationDate = 2;
+  google.protobuf.Timestamp retirementDate = 3;
+  uint32 lines = 4;
+  bool isActive = 5;
+  google.protobuf.Timestamp createdAt = 6;
+
+  string serialId = 7;
+}
+
+message UpdateInstallationDto {
+  uint32 id = 1;
+  string address = 2;
+  google.protobuf.Timestamp retirementDate = 3;
+  uint32 lines = 4;
+  bool isActive = 5;
+  google.protobuf.Timestamp createdAt = 6;
 }
